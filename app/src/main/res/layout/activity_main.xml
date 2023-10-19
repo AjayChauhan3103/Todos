@@ -55,11 +55,25 @@
         android:id="@+id/mainRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="5dp"
         android:layout_marginBottom="10dp"
         tools:listitem="@layout/todos_custom_layout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/btnAddNewTodos"
         app:layout_constraintStart_toStartOf="@+id/editNewTodos"
         app:layout_constraintTop_toBottomOf="@+id/editNewTodos" />
+
+    <ProgressBar
+        android:id="@+id/todosLoadingProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminateTint="#03A9F4"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/mainRecyclerView"
+        app:layout_constraintStart_toStartOf="@+id/mainRecyclerView"
+        app:layout_constraintTop_toTopOf="@+id/mainRecyclerView" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
