@@ -6,11 +6,13 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.example.todos.adapters.TodoAdapter
 import com.example.todos.databinding.ActivityMainBinding
 import com.example.todos.models.Data
 import com.example.todos.models.TodoModelList
 import com.example.todos.services.ApiInterface
+import okhttp3.OkHttpClient
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,7 +47,8 @@ class MainActivity : AppCompatActivity() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(BASE_URL).build().create(ApiInterface::class.java)
+            .baseUrl(BASE_URL)
+            .build().create(ApiInterface::class.java)
 
         val retrofitData = retrofitBuilder.getData()
 
