@@ -31,11 +31,14 @@ class MainActivity : AppCompatActivity() {
 //      As the Activity gets created the getData() will get the data from the API that will displayed the RecyclerView
         getData()
 
+//        As the user will click on the add btn any input in the editText will be posted into the API
         binding.btnAddNewTodos.setOnClickListener {
-
             val newTodo :String = binding.editNewTodos.editText?.text.toString()
-
-            postData(newTodo)
+            if (newTodo.isNullOrEmpty()){
+            binding.editNewTodos.editText?.error = "Input Required"
+            }else{
+                postData(newTodo)
+            }
         }
     }
     private fun getData(){

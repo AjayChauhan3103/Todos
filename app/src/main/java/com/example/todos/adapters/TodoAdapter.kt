@@ -32,7 +32,7 @@ class TodoAdapter(private val context : Context,private val dataList: ArrayList<
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TodoAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TodoAdapter.ViewHolder, position : Int) {
         holder.todos.text = "${dataList[position].todo}"
 
 
@@ -46,20 +46,27 @@ class TodoAdapter(private val context : Context,private val dataList: ArrayList<
                 .build()
             val jsonPlaceHolder = retrofitBuilder.create(ApiInterface::class.java)
 
+//                        Toast.makeText(context,"${dataList[position].id}",Toast.LENGTH_LONG).show()
+
+
             val call = jsonPlaceHolder.deleteData(dataList[position].id)
 
-            call.enqueue(object : Callback<Unit?> {
-                override fun onResponse(call: Call<Unit?>, response: Response<Unit?>) {
-                    Toast.makeText(context,"Deleted",Toast.LENGTH_LONG).show()
+            call.enqueue(object : Callback<Data?> {
+                override fun onResponse(call: Call<Data?>, response: Response<Data?>) {
+//                    Toast.makeText(context,response.message(),Toast.LENGTH_LONG).show()
+
+                   if( response.isSuccessful) {
+                       dataList.removeAt(position)
+                       notifyDataSetChanged()
+                   }
                 }
 
-                override fun onFailure(call: Call<Unit?>, t: Throwable) {
+                override fun onFailure(call: Call<Data?>, t: Throwable) {
                     Toast.makeText(context,t.localizedMessage,Toast.LENGTH_LONG).show()
                 }
             })
 //            Toast.makeText(context,"Deleting ${dataList[position].todo}",Toast.LENGTH_LONG).show()
-            dataList.removeAt(position)
-            notifyDataSetChanged()
+
         }
     }
 
