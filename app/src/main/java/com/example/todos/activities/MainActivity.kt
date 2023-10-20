@@ -35,31 +35,7 @@ class MainActivity : AppCompatActivity() {
 
             val newTodo :String = binding.editNewTodos.editText?.text.toString()
 
-            val retrofitBuilder = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl(BASE_URL)
-                .build()
-            val jsonPlaceHolder = retrofitBuilder.create(ApiInterface::class.java)
-
-            val addNewTodo = Data(0,0,"$newTodo")
-
-            val call = jsonPlaceHolder.postData(addNewTodo)
-
-            call.enqueue(object : Callback<Data?> {
-                override fun onResponse(
-                    call: Call<Data?>,
-                    response: Response<Data?>
-                ) {
-                    todoModel.clear()
-                    Toast.makeText(it.context , "Todo Created Successfully", Toast.LENGTH_SHORT).show()
-                    binding.editNewTodos.editText?.text?.clear()
-                    binding.todosLoadingProgressBar.visibility = View.VISIBLE
-                    getData()
-                }
-                override fun onFailure(call: Call<Data?>, t: Throwable) {
-                    Log.d("error","${t.localizedMessage}")
-                }
-            })
+            postData(newTodo)
         }
     }
     private fun getData(){
@@ -92,6 +68,35 @@ class MainActivity : AppCompatActivity() {
             }
         })
 
+    }
+
+    private fun postData(newTodo : String){
+
+        val retrofitBuilder = Retrofit.Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl(BASE_URL)
+            .build()
+        val jsonPlaceHolder = retrofitBuilder.create(ApiInterface::class.java)
+
+        val addNewTodo = Data(0,0,"$newTodo")
+
+        val call = jsonPlaceHolder.postData(addNewTodo)
+
+        call.enqueue(object : Callback<Data?> {
+            override fun onResponse(
+                call: Call<Data?>,
+                response: Response<Data?>
+            ) {
+                todoModel.clear()
+//                Toast.makeText(this@MainActivity , "Todo Created Successfully", Toast.LENGTH_SHORT).show()
+                binding.editNewTodos.editText?.text?.clear()
+                binding.todosLoadingProgressBar.visibility = View.VISIBLE
+                getData()
+            }
+            override fun onFailure(call: Call<Data?>, t: Throwable) {
+                Log.d("error","${t.localizedMessage}")
+            }
+        })
     }
 
 }
